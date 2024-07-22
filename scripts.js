@@ -191,3 +191,56 @@ document.addEventListener("DOMContentLoaded", function () {
         smoothScrollToFormMessage();
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const languageButtons = document.querySelectorAll('.language-btn');
+    const elementsToTranslate = {
+        aboutTitle: document.getElementById('about-title'),
+        aboutContent: document.getElementById('about-content'),
+        contactTitle: document.getElementById('contact-title'),
+        contactNameLabel: document.getElementById('contact-name-label'),
+        contactEmailLabel: document.getElementById('contact-email-label'),
+        contactMessageLabel: document.getElementById('contact-message-label'),
+        contactSendBtn: document.getElementById('contact-send-btn')
+    };
+
+    languageButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Remove active class from all buttons
+            languageButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to the clicked button
+            button.classList.add('active');
+            
+            // Get the selected language
+            const selectedLanguage = button.id;
+            
+            // Change the language
+            changeLanguage(selectedLanguage);
+        });
+    });
+    
+    function changeLanguage(language) {
+        fetch(`lang/${language}.json`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                elementsToTranslate.aboutTitle.textContent = data.about.title;
+                elementsToTranslate.aboutContent.textContent = data.about.content;
+                elementsToTranslate.contactTitle.textContent = data.contact.title;
+                elementsToTranslate.contactNameLabel.textContent = data.contact.name;
+                elementsToTranslate.contactEmailLabel.textContent = data.contact.email;
+                elementsToTranslate.contactMessageLabel.textContent = data.contact.message;
+                elementsToTranslate.contactSendBtn.textContent = data.contact.send;
+            })
+            .catch(error => {
+                console.error('Error fetching translation:', error);
+                alert('Error fetching translation data. Please try again later.');
+            });
+    }
+});

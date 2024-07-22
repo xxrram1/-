@@ -331,7 +331,7 @@ h1:hover::after, h2:hover::after {
     text-align: center;
 }
 .intro-image img {
-    width: 100%;
+    width: 80%;
     height: auto;
     border-radius: 10px;
 }
@@ -555,8 +555,9 @@ textarea.form-control {
 }
 .about-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     position: relative;
+    margin-top: 100px;
 }
 .section-titlesss {
     font-size: 2.5em;
